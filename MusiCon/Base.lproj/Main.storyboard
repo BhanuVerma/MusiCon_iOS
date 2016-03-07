@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,43 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0qE-A2-CQe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VGe-9Z-mf6">
+                                <rect key="frame" x="178" y="278" width="244" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="LlU-bN-UuP"/>
+                                    <constraint firstAttribute="width" constant="244" id="nvf-yu-5zK"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="LoginIcon"/>
+                                <connections>
+                                    <action selector="loginWithSpotify:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1rl-eX-W4r"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0qE-A2-CQe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6j4-VA-DlO"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0qE-A2-CQe" secondAttribute="bottom" id="Ae6-PB-5ez"/>
+                            <constraint firstAttribute="trailing" secondItem="0qE-A2-CQe" secondAttribute="trailing" id="LAF-uO-kPn"/>
+                            <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bwf-Vs-ZxE"/>
+                            <constraint firstItem="0qE-A2-CQe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="lDZ-qt-kbV"/>
+                            <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="x57-mz-5C9"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="artworkImage" destination="0qE-A2-CQe" id="XNz-oM-2U1"/>
+                        <outlet property="loginButton" destination="VGe-9Z-mf6" id="Szs-e0-iYp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="375" y="235"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="LoginIcon" width="488" height="88"/>
+    </resources>
 </document>
