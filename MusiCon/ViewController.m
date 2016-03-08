@@ -94,6 +94,7 @@ NSString * callBackURL = @"musicon-login://callback";
 }
 
 - (void)updateCoverArt {
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     if ([self.player currentTrackMetadata] == nil){
         self.artworkImage.image = [UIImage imageNamed:@""];
         return;
@@ -106,7 +107,7 @@ NSString * callBackURL = @"musicon-login://callback";
         if (url != nil) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSError *error = nil;
-                NSData *imageData = [[NSData alloc] initWithContentsOfURL:url options:nil error:&error];
+                NSData *imageData = [[NSData alloc] initWithContentsOfURL:url options:0 error:&error];
                 UIImage *coverImage;
                 
                 if (error == nil) {
