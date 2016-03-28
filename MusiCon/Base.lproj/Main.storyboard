@@ -16,12 +16,43 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="R1E-Ah-9Fm">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="R1E-Ah-9Fm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="037-Q0-tet"/>
+                            <constraint firstItem="R1E-Ah-9Fm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6ke-PR-K86"/>
+                            <constraint firstItem="R1E-Ah-9Fm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="I6E-0t-KAN"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="R1E-Ah-9Fm" secondAttribute="bottom" id="PgY-QY-d4J"/>
+                            <constraint firstItem="R1E-Ah-9Fm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cfu-Rd-Mu2"/>
+                            <constraint firstItem="R1E-Ah-9Fm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="etO-eE-h9q"/>
+                            <constraint firstItem="R1E-Ah-9Fm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="iYv-cd-vJX"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="R1E-Ah-9Fm" secondAttribute="bottom" id="ixh-UD-e2J"/>
+                            <constraint firstAttribute="trailing" secondItem="R1E-Ah-9Fm" secondAttribute="trailing" id="k1p-ZX-ANa"/>
+                            <constraint firstAttribute="trailing" secondItem="R1E-Ah-9Fm" secondAttribute="trailing" id="reV-Mk-wAr"/>
+                            <constraint firstAttribute="trailing" secondItem="R1E-Ah-9Fm" secondAttribute="trailing" id="tKD-E7-tzP"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="R1E-Ah-9Fm" secondAttribute="bottom" id="uhS-jn-4wA"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="037-Q0-tet"/>
+                                <exclude reference="6ke-PR-K86"/>
+                                <exclude reference="I6E-0t-KAN"/>
+                                <exclude reference="etO-eE-h9q"/>
+                                <exclude reference="reV-Mk-wAr"/>
+                                <exclude reference="tKD-E7-tzP"/>
+                                <exclude reference="PgY-QY-d4J"/>
+                                <exclude reference="uhS-jn-4wA"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <segue destination="wmL-zY-TNq" kind="show" identifier="ViewToHome" id="Z8b-cm-wwf"/>
-                        <segue destination="a6s-vj-zNq" kind="show" identifier="ViewToLogin" id="a4y-Yz-giT"/>
+                        <segue destination="wmL-zY-TNq" kind="showDetail" identifier="ViewToHome" animates="NO" action="showViewController:sender:" id="Z8b-cm-wwf"/>
+                        <segue destination="a6s-vj-zNq" kind="showDetail" identifier="ViewToLogin" animates="NO" action="showViewController:sender:" id="a4y-Yz-giT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -95,7 +126,7 @@
                         <outlet property="loginButton" destination="ffS-19-yLh" id="y0L-v1-Cy7"/>
                         <outlet property="passText" destination="wRl-50-Mm9" id="pdR-UH-bx4"/>
                         <outlet property="userName" destination="BoA-eY-qdH" id="Jml-Po-0lz"/>
-                        <segue destination="wmL-zY-TNq" kind="show" identifier="LoginToHome" id="8cV-3H-N48"/>
+                        <segue destination="wmL-zY-TNq" kind="showDetail" identifier="LoginToHome" animates="NO" action="showViewController:sender:" id="8cV-3H-N48"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n59-p6-hmD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -155,6 +186,6 @@
         <image name="LoginIcon" width="488" height="88"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8cV-3H-N48"/>
+        <segue reference="Z8b-cm-wwf"/>
     </inferredMetricsTieBreakers>
 </document>
