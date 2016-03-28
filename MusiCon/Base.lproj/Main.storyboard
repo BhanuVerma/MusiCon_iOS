@@ -20,7 +20,6 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="artworkImage" destination="0qE-A2-CQe" id="XNz-oM-2U1"/>
                         <segue destination="wmL-zY-TNq" kind="show" identifier="ViewToHome" id="Z8b-cm-wwf"/>
                         <segue destination="a6s-vj-zNq" kind="show" identifier="ViewToLogin" id="a4y-Yz-giT"/>
                     </connections>
@@ -60,7 +59,7 @@
                                     <constraint firstAttribute="width" constant="200" id="vSR-Y3-xyJ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffS-19-yLh">
                                 <rect key="frame" x="112.5" y="377" width="150" height="50"/>
@@ -72,6 +71,9 @@
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="loginButtonTapped:" destination="a6s-vj-zNq" eventType="touchUpInside" id="AyN-yW-W0q"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -90,6 +92,9 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="loginButton" destination="ffS-19-yLh" id="y0L-v1-Cy7"/>
+                        <outlet property="passText" destination="wRl-50-Mm9" id="pdR-UH-bx4"/>
+                        <outlet property="userName" destination="BoA-eY-qdH" id="Jml-Po-0lz"/>
                         <segue destination="wmL-zY-TNq" kind="show" identifier="LoginToHome" id="8cV-3H-N48"/>
                     </connections>
                 </viewController>
@@ -109,7 +114,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0qE-A2-CQe">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="0qE-A2-CQe">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VGe-9Z-mf6">
@@ -136,6 +141,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="artworkImage" destination="0qE-A2-CQe" id="fhE-jN-d8L"/>
                         <outlet property="loginButton" destination="VGe-9Z-mf6" id="VeC-Cz-G0t"/>
                     </connections>
                 </viewController>

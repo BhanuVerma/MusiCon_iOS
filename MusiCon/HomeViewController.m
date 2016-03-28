@@ -150,6 +150,11 @@ NSString * callBackURL = @"musicon-login://callback";
     [self updateCoverArt];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
