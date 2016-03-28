@@ -13,12 +13,13 @@
 		36C75B0B1C8CC942005E154C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36C75B091C8CC942005E154C /* Main.storyboard */; };
 		36C75B0E1C8CC942005E154C /* MusiCon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36C75B0C1C8CC942005E154C /* MusiCon.xcdatamodeld */; };
 		36C75B101C8CC942005E154C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36C75B0F1C8CC942005E154C /* Assets.xcassets */; };
-		36C75B131C8CC942005E154C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36C75B111C8CC942005E154C /* LaunchScreen.storyboard */; };
 		36C75B1E1C8CC942005E154C /* MusiConTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C75B1D1C8CC942005E154C /* MusiConTests.m */; };
 		36C75B291C8CC942005E154C /* MusiConUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C75B281C8CC942005E154C /* MusiConUITests.m */; };
 		36C75B381C8CD3BB005E154C /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C75B371C8CD3BB005E154C /* Spotify.framework */; };
 		36C75B3A1C8CDC9C005E154C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C75B391C8CDC9C005E154C /* AVFoundation.framework */; };
 		36C75B3C1C8CDCBB005E154C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C75B3B1C8CDCBB005E154C /* SystemConfiguration.framework */; };
+		36F1DBCC1CA87DCB000D0441 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F1DBCB1CA87DCB000D0441 /* HomeViewController.m */; };
+		36F1DBCF1CA88A7F000D0441 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F1DBCE1CA88A7F000D0441 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +49,6 @@
 		36C75B0A1C8CC942005E154C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		36C75B0D1C8CC942005E154C /* MusiCon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MusiCon.xcdatamodel; sourceTree = "<group>"; };
 		36C75B0F1C8CC942005E154C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		36C75B121C8CC942005E154C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		36C75B141C8CC942005E154C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36C75B191C8CC942005E154C /* MusiConTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusiConTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C75B1D1C8CC942005E154C /* MusiConTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusiConTests.m; sourceTree = "<group>"; };
@@ -59,6 +59,10 @@
 		36C75B371C8CD3BB005E154C /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
 		36C75B391C8CDC9C005E154C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		36C75B3B1C8CDCBB005E154C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		36F1DBCA1CA87DCB000D0441 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		36F1DBCB1CA87DCB000D0441 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		36F1DBCD1CA88A7F000D0441 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		36F1DBCE1CA88A7F000D0441 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,9 +121,12 @@
 				36C75B041C8CC942005E154C /* AppDelegate.m */,
 				36C75B061C8CC942005E154C /* ViewController.h */,
 				36C75B071C8CC942005E154C /* ViewController.m */,
+				36F1DBCA1CA87DCB000D0441 /* HomeViewController.h */,
+				36F1DBCB1CA87DCB000D0441 /* HomeViewController.m */,
+				36F1DBCD1CA88A7F000D0441 /* LoginViewController.h */,
+				36F1DBCE1CA88A7F000D0441 /* LoginViewController.m */,
 				36C75B091C8CC942005E154C /* Main.storyboard */,
 				36C75B0F1C8CC942005E154C /* Assets.xcassets */,
-				36C75B111C8CC942005E154C /* LaunchScreen.storyboard */,
 				36C75B141C8CC942005E154C /* Info.plist */,
 				36C75B0C1C8CC942005E154C /* MusiCon.xcdatamodeld */,
 				36C75B001C8CC942005E154C /* Supporting Files */,
@@ -267,7 +274,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36C75B131C8CC942005E154C /* LaunchScreen.storyboard in Resources */,
 				36C75B101C8CC942005E154C /* Assets.xcassets in Resources */,
 				36C75B0B1C8CC942005E154C /* Main.storyboard in Resources */,
 			);
@@ -296,7 +302,9 @@
 			files = (
 				36C75B081C8CC942005E154C /* ViewController.m in Sources */,
 				36C75B051C8CC942005E154C /* AppDelegate.m in Sources */,
+				36F1DBCF1CA88A7F000D0441 /* LoginViewController.m in Sources */,
 				36C75B0E1C8CC942005E154C /* MusiCon.xcdatamodeld in Sources */,
+				36F1DBCC1CA87DCB000D0441 /* HomeViewController.m in Sources */,
 				36C75B021C8CC942005E154C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,14 +347,6 @@
 				36C75B0A1C8CC942005E154C /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		36C75B111C8CC942005E154C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				36C75B121C8CC942005E154C /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -535,6 +535,7 @@
 				36C75B2F1C8CC942005E154C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		36C75B301C8CC942005E154C /* Build configuration list for PBXNativeTarget "MusiConTests" */ = {
 			isa = XCConfigurationList;
@@ -543,6 +544,7 @@
 				36C75B321C8CC942005E154C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		36C75B331C8CC942005E154C /* Build configuration list for PBXNativeTarget "MusiConUITests" */ = {
 			isa = XCConfigurationList;
@@ -551,6 +553,7 @@
 				36C75B351C8CC942005E154C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
