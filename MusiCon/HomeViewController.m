@@ -97,15 +97,22 @@ NSTimeInterval totalTime;
             return;
         }
         
-    // TODO: get this URIs from server call
-        
-    // spotify:track:3RiPr603aXAoi4GHyXx0uy - Hymn for the weekend
-    // spotify:track:0BF6mdNROWgYo3O3mNGrBc - LeanOn
-    // spotify:track:4O0Yww5OIWyfBvWn6xN3CM - Divenire
-    // spotify:track:3LlAyCYU26dvFZBDUIMb7a - Demons
-    // spotify:track:0YuH7QCFXK0elodziM1cOU - Saadi Gali
-        
-        NSURL *trackURI_1 = [NSURL URLWithString:@"spotify:track:3RiPr603aXAoi4GHyXx0uy"];
+        // Generated Request
+        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
+            
+        NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
+        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",@"33.777362", @"-84.390098"];
+        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
+            
+        NSString *songURI = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
+            
+        // spotify:track:3RiPr603aXAoi4GHyXx0uy - Hymn for the weekend
+        // spotify:track:0BF6mdNROWgYo3O3mNGrBc - LeanOn
+        // spotify:track:4O0Yww5OIWyfBvWn6xN3CM - Divenire
+        // spotify:track:3LlAyCYU26dvFZBDUIMb7a - Demons
+        // spotify:track:0YuH7QCFXK0elodziM1cOU - Saadi Gali
+            
+        NSURL *trackURI_1 = [NSURL URLWithString:songURI];
         NSURL *trackURI_2 = [NSURL URLWithString:@"spotify:track:0BF6mdNROWgYo3O3mNGrBc"];
         NSURL *trackURI_3 = [NSURL URLWithString:@"spotify:track:4O0Yww5OIWyfBvWn6xN3CM"];
         NSURL *trackURI_4 = [NSURL URLWithString:@"spotify:track:3LlAyCYU26dvFZBDUIMb7a"];
@@ -269,6 +276,24 @@ NSTimeInterval totalTime;
     [_currentTimeField setText:[self getTime:currentTime]];
     [_totalTimeField setText:[self getTime:totalTime]];
 }
+
+-(NSString *) sendNSURLRequest:(NSString *)stringURL withType:(NSString *)requestType andFeatureString:(NSString *)featureString {
+    NSString *post =featureString;
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:stringURL]];
+    [request setHTTPMethod:requestType];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    NSError *error;
+    NSURLResponse *response;
+    NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *songURI=[[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
+    return songURI;
+}
+
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
