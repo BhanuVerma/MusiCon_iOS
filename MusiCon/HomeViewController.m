@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface HomeViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -25,15 +26,27 @@
 
 NSString *clientId = @"ebd981eac8e34799b2dd48e6e20a802c";
 NSString *callBackURL = @"musicon-login://callback";
+CLLocationManager *locationManager;
 NSTimer *timer;
 NSTimeInterval currentTime;
 NSTimeInterval totalTime;
+float latitude = 0.0f;
+float longitude = 0.0f;
+
+#define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     // Do any additional setup after loading the view, typically from a nib.
+    
+    locationManager = [CLLocationManager new];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
+    [locationManager requestWhenInUseAuthorization];
     
     _loginButton.hidden = true;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAfterFirstLogin) name:@"loginSuccessfull" object:nil];
@@ -97,27 +110,35 @@ NSTimeInterval totalTime;
             return;
         }
         
+        // Get Lat, Long Info
+        latitude = locationManager.location.coordinate.latitude;
+        NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
+        longitude = locationManager.location.coordinate.longitude;
+        NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
+        
         // Generated Request
-        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
-            
+        NSString *stringURL = @"http://52.37.58m.111/v1/user/fetch_rec/bverma"; // POST Request
         NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
-        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",@"33.777362", @"-84.390098"];
+        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString, longString];
         NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
             
-        NSString *songURI = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
+        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
             
         // spotify:track:3RiPr603aXAoi4GHyXx0uy - Hymn for the weekend
         // spotify:track:0BF6mdNROWgYo3O3mNGrBc - LeanOn
         // spotify:track:4O0Yww5OIWyfBvWn6xN3CM - Divenire
         // spotify:track:3LlAyCYU26dvFZBDUIMb7a - Demons
         // spotify:track:0YuH7QCFXK0elodziM1cOU - Saadi Gali
-            
-        NSURL *trackURI_1 = [NSURL URLWithString:songURI];
-        NSURL *trackURI_2 = [NSURL URLWithString:@"spotify:track:0BF6mdNROWgYo3O3mNGrBc"];
-        NSURL *trackURI_3 = [NSURL URLWithString:@"spotify:track:4O0Yww5OIWyfBvWn6xN3CM"];
-        NSURL *trackURI_4 = [NSURL URLWithString:@"spotify:track:3LlAyCYU26dvFZBDUIMb7a"];
-        NSURL *trackURI_5 = [NSURL URLWithString:@"spotify:track:0YuH7QCFXK0elodziM1cOU"];
-        [self.player playURIs:@[trackURI_1,trackURI_2,trackURI_3,trackURI_4,trackURI_5] fromIndex:0 callback:^(NSError *error) {
+        
+        NSMutableArray *songURIArr = [[NSMutableArray alloc] initWithCapacity:[songStringArr count]];
+        
+        for (NSString* uriString in songStringArr)
+        {
+            NSURL *songURL = [NSURL URLWithString:uriString];
+            [songURIArr addObject:songURL];
+        }
+        
+        [self.player playURIs:songURIArr fromIndex:0 callback:^(NSError *error) {
             if (error != nil) {
                 NSLog(@"*** Starting playback got error: %@", error);
                 return;
@@ -254,6 +275,13 @@ NSTimeInterval totalTime;
     [_actionButton setBackgroundImage:playIcon forState:UIControlStateNormal];
 }
 
+// Delegate method
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation* loc = [locations lastObject]; // locations is guaranteed to have at least one object
+    latitude = loc.coordinate.latitude;
+    longitude = loc.coordinate.longitude;
+}
+
 #pragma mark Utilities
 
 -(NSString *)getTime:(NSTimeInterval)time {
@@ -277,7 +305,7 @@ NSTimeInterval totalTime;
     [_totalTimeField setText:[self getTime:totalTime]];
 }
 
--(NSString *) sendNSURLRequest:(NSString *)stringURL withType:(NSString *)requestType andFeatureString:(NSString *)featureString {
+-(NSArray *) sendNSURLRequest:(NSString *)stringURL withType:(NSString *)requestType andFeatureString:(NSString *)featureString {
     NSString *post =featureString;
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
@@ -290,8 +318,9 @@ NSTimeInterval totalTime;
     NSError *error;
     NSURLResponse *response;
     NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSString *songURI=[[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
-    return songURI;
+    NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:urlData options:NSJSONReadingMutableContainers error:nil];
+    NSArray *songArr = [dict objectForKey:@"uris"];
+    return songArr;
 }
 
 

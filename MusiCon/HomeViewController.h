@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <Spotify/Spotify.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface HomeViewController : UIViewController <SPTAudioStreamingPlaybackDelegate>
+@interface HomeViewController : UIViewController <SPTAudioStreamingPlaybackDelegate,CLLocationManagerDelegate>
 
 @end
