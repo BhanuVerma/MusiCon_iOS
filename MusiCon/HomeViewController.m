@@ -11,6 +11,10 @@
 @interface HomeViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIImageView *artworkImage;
+@property (weak, nonatomic) IBOutlet UIButton *actionButton;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressIndicator;
+@property (weak, nonatomic) IBOutlet UITextField *currentTimeField;
+@property (weak, nonatomic) IBOutlet UITextField *totalTimeField;
 @property (nonatomic, strong) SPTSession *session;
 @property (nonatomic, strong) SPTAudioStreamingController *player;
 @end
@@ -19,6 +23,8 @@
 
 NSString * clientId = @"ebd981eac8e34799b2dd48e6e20a802c";
 NSString * callBackURL = @"musicon-login://callback";
+NSTimeInterval currentTime;
+NSTimeInterval totalTime;
 
 - (void)viewDidLoad {
     
@@ -131,6 +137,43 @@ NSString * callBackURL = @"musicon-login://callback";
     
 }
 
+- (void)stopProgressIndicator {
+    
+}
+
+#pragma mark IBActions
+
+- (IBAction)actionButtonPressed:(id)sender {
+    if ([self.player isPlaying]) {
+        // Change pauseicon to playicon
+        UIImage *playIcon = [UIImage imageNamed:@"PlayIcon"];
+        [_actionButton setBackgroundImage:playIcon forState:UIControlStateNormal];
+        
+        // Stop Playing Song
+        [self.player setIsPlaying:NO callback:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                return;
+            }
+        }];
+        // Stop ProgressBar
+    }
+    else {
+        // Change playicon to pauseicon
+        UIImage *pauseIcon = [UIImage imageNamed:@"PauseIcon"];
+        [_actionButton setBackgroundImage:pauseIcon forState:UIControlStateNormal];
+        
+        // Start Playing Song
+        [self.player setIsPlaying:YES callback:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                return;
+            }
+        }];
+        // Stop ProgressBar
+    }
+}
+
 - (IBAction)loginWithSpotify:(id)sender {
     // Override point for customization after application launch.
     [[SPTAuth defaultInstance] setClientID:clientId];
@@ -146,8 +189,33 @@ NSString * callBackURL = @"musicon-login://callback";
     
 }
 
+#pragma mark Delegate Implementations
+
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didStartPlayingTrack:(NSURL *)trackUri {
     [self updateCoverArt];
+    [_progressIndicator setHidden:NO];
+    [_currentTimeField setHidden:NO];
+    [_totalTimeField setHidden:NO];
+    [_actionButton setHidden:NO];
+    currentTime = [self.player currentPlaybackPosition];
+    totalTime = [self.player currentTrackDuration];
+    [_currentTimeField setText:[self getTime:currentTime]];
+    [_totalTimeField setText:[self getTime:totalTime]];
+}
+
+-(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didStopPlayingTrack:(NSURL *)trackUri {
+    [self stopProgressIndicator];
+}
+
+#pragma mark Utilities
+
+-(NSString *)getTime:(NSTimeInterval)time {
+    int minutes = time/60;
+    int seconds = time - (minutes*60);
+    NSString *minString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"%d",minutes]];
+    NSString *secString = [[NSString alloc] initWithString:[NSString stringWithFormat:@"%d",seconds]];
+    NSString *durationString = [[NSString alloc] initWithString:[NSString stringWithFormat: @"%@:%@", minString, secString]];
+    return durationString;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle

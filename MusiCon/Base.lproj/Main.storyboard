@@ -147,6 +147,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="0qE-A2-CQe">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VGe-9Z-mf6">
                                 <rect key="frame" x="65" y="311" width="244" height="44"/>
@@ -159,21 +160,77 @@
                                     <action selector="loginWithSpotify:" destination="wmL-zY-TNq" eventType="touchUpInside" id="vsJ-Rx-bEh"/>
                                 </connections>
                             </button>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="F7f-JK-tek">
+                                <rect key="frame" x="47" y="555" width="280" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="w0t-pN-m0R"/>
+                                </constraints>
+                            </progressView>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5:00" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Z0-c4-y2E">
+                                <rect key="frame" x="336" y="539" width="33" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="DAb-Sc-7c7"/>
+                                    <constraint firstAttribute="width" constant="33" id="wmh-1j-wb2"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PB6-IW-aGJ">
+                                <rect key="frame" x="167" y="581" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="sCK-d4-Rq4"/>
+                                    <constraint firstAttribute="height" constant="40" id="xWQ-au-z6w"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" backgroundImage="PauseIcon">
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actionButtonPressed:" destination="wmL-zY-TNq" eventType="touchUpInside" id="gBM-Fn-TEe"/>
+                                </connections>
+                            </button>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0:00" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3AI-la-c3E" userLabel="Current Time">
+                                <rect key="frame" x="6" y="540" width="33" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="702-wD-vDR"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="BhW-rN-zpY"/>
+                                    <constraint firstAttribute="width" constant="33" id="CIZ-CT-mqE"/>
+                                    <constraint firstAttribute="height" constant="30" id="QV4-HH-css"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="brJ-nD-Gqa" firstAttribute="top" secondItem="0qE-A2-CQe" secondAttribute="bottom" id="1Xb-tJ-ouk"/>
+                            <constraint firstItem="2Z0-c4-y2E" firstAttribute="baseline" secondItem="F7f-JK-tek" secondAttribute="baseline" id="2gt-3a-2pj"/>
+                            <constraint firstItem="PB6-IW-aGJ" firstAttribute="top" secondItem="F7f-JK-tek" secondAttribute="bottom" constant="24" id="3GT-Es-bDt"/>
                             <constraint firstAttribute="trailing" secondItem="0qE-A2-CQe" secondAttribute="trailing" id="4qr-78-DY9"/>
+                            <constraint firstItem="F7f-JK-tek" firstAttribute="top" secondItem="VGe-9Z-mf6" secondAttribute="bottom" constant="200" id="4yh-a1-JPv"/>
+                            <constraint firstAttribute="trailing" secondItem="2Z0-c4-y2E" secondAttribute="trailing" constant="6" id="Dmc-j2-3bL"/>
                             <constraint firstItem="0qE-A2-CQe" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" id="Wy1-jJ-c9d"/>
+                            <constraint firstItem="3AI-la-c3E" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" constant="6" id="djw-gx-fGX"/>
+                            <constraint firstItem="F7f-JK-tek" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="eMg-6V-ZAH"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="lr7-s4-aLG"/>
                             <constraint firstItem="0qE-A2-CQe" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" id="mTR-YY-b1b"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerY" secondItem="MlE-5H-EPP" secondAttribute="centerY" id="s0Q-vU-OPZ"/>
+                            <constraint firstItem="PB6-IW-aGJ" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="vSB-Ac-6xE"/>
+                            <constraint firstItem="F7f-JK-tek" firstAttribute="baseline" secondItem="3AI-la-c3E" secondAttribute="baseline" id="xvc-Bf-0Tb"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="actionButton" destination="PB6-IW-aGJ" id="6dN-2f-kaO"/>
                         <outlet property="artworkImage" destination="0qE-A2-CQe" id="fhE-jN-d8L"/>
+                        <outlet property="currentTimeField" destination="3AI-la-c3E" id="8sO-Z5-cGh"/>
                         <outlet property="loginButton" destination="VGe-9Z-mf6" id="VeC-Cz-G0t"/>
+                        <outlet property="progressIndicator" destination="F7f-JK-tek" id="FP5-p9-qBX"/>
+                        <outlet property="totalTimeField" destination="2Z0-c4-y2E" id="cRg-FG-am6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3cj-oA-K6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -184,6 +241,7 @@
     <resources>
         <image name="LoginBackground" width="640" height="1136"/>
         <image name="LoginIcon" width="488" height="88"/>
+        <image name="PauseIcon" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Z8b-cm-wwf"/>
