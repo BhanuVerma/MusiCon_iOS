@@ -160,6 +160,19 @@
                                     <action selector="loginWithSpotify:" destination="wmL-zY-TNq" eventType="touchUpInside" id="vsJ-Rx-bEh"/>
                                 </connections>
                             </button>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0:00" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3AI-la-c3E" userLabel="Current Time">
+                                <rect key="frame" x="6" y="540" width="33" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="702-wD-vDR"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="BhW-rN-zpY"/>
+                                    <constraint firstAttribute="width" constant="33" id="CIZ-CT-mqE"/>
+                                    <constraint firstAttribute="height" constant="30" id="QV4-HH-css"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="F7f-JK-tek">
                                 <rect key="frame" x="47" y="555" width="280" height="2"/>
                                 <constraints>
@@ -191,19 +204,28 @@
                                     <action selector="actionButtonPressed:" destination="wmL-zY-TNq" eventType="touchUpInside" id="gBM-Fn-TEe"/>
                                 </connections>
                             </button>
-                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0:00" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3AI-la-c3E" userLabel="Current Time">
-                                <rect key="frame" x="6" y="540" width="33" height="30"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFu-L2-Vju">
+                                <rect key="frame" x="225" y="581" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="702-wD-vDR"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="BhW-rN-zpY"/>
-                                    <constraint firstAttribute="width" constant="33" id="CIZ-CT-mqE"/>
-                                    <constraint firstAttribute="height" constant="30" id="QV4-HH-css"/>
+                                    <constraint firstAttribute="width" constant="40" id="5Bc-DR-Y2F"/>
+                                    <constraint firstAttribute="height" constant="40" id="qWJ-0D-mog"/>
                                 </constraints>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <state key="normal" backgroundImage="NextIcon"/>
+                                <connections>
+                                    <action selector="nextButtonPressed:" destination="wmL-zY-TNq" eventType="touchUpInside" id="51Q-we-URU"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dA8-Ld-KAy">
+                                <rect key="frame" x="105" y="581" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="AKH-1w-cYF"/>
+                                    <constraint firstAttribute="height" constant="40" id="UJt-UP-x33"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="PreviousIcon"/>
+                                <connections>
+                                    <action selector="previousButtonPressed:" destination="wmL-zY-TNq" eventType="touchUpInside" id="Jua-ZF-2XI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -212,15 +234,19 @@
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="top" secondItem="F7f-JK-tek" secondAttribute="bottom" constant="24" id="3GT-Es-bDt"/>
                             <constraint firstAttribute="trailing" secondItem="0qE-A2-CQe" secondAttribute="trailing" id="4qr-78-DY9"/>
                             <constraint firstItem="F7f-JK-tek" firstAttribute="top" secondItem="VGe-9Z-mf6" secondAttribute="bottom" constant="200" id="4yh-a1-JPv"/>
+                            <constraint firstItem="PB6-IW-aGJ" firstAttribute="centerY" secondItem="dA8-Ld-KAy" secondAttribute="centerY" id="D2V-N7-EBD"/>
                             <constraint firstAttribute="trailing" secondItem="2Z0-c4-y2E" secondAttribute="trailing" constant="6" id="Dmc-j2-3bL"/>
                             <constraint firstItem="0qE-A2-CQe" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" id="Wy1-jJ-c9d"/>
+                            <constraint firstItem="fFu-L2-Vju" firstAttribute="leading" secondItem="PB6-IW-aGJ" secondAttribute="trailing" constant="18" id="YAG-5E-XGC"/>
                             <constraint firstItem="3AI-la-c3E" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" constant="6" id="djw-gx-fGX"/>
                             <constraint firstItem="F7f-JK-tek" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="eMg-6V-ZAH"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="lr7-s4-aLG"/>
                             <constraint firstItem="0qE-A2-CQe" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" id="mTR-YY-b1b"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerY" secondItem="MlE-5H-EPP" secondAttribute="centerY" id="s0Q-vU-OPZ"/>
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="vSB-Ac-6xE"/>
+                            <constraint firstItem="PB6-IW-aGJ" firstAttribute="leading" secondItem="dA8-Ld-KAy" secondAttribute="trailing" constant="22" id="xrn-hJ-wcs"/>
                             <constraint firstItem="F7f-JK-tek" firstAttribute="baseline" secondItem="3AI-la-c3E" secondAttribute="baseline" id="xvc-Bf-0Tb"/>
+                            <constraint firstItem="fFu-L2-Vju" firstAttribute="centerY" secondItem="dA8-Ld-KAy" secondAttribute="centerY" id="yeZ-te-whI"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -229,7 +255,9 @@
                         <outlet property="artworkImage" destination="0qE-A2-CQe" id="fhE-jN-d8L"/>
                         <outlet property="currentTimeField" destination="3AI-la-c3E" id="8sO-Z5-cGh"/>
                         <outlet property="loginButton" destination="VGe-9Z-mf6" id="VeC-Cz-G0t"/>
-                        <outlet property="progressIndicator" destination="F7f-JK-tek" id="FP5-p9-qBX"/>
+                        <outlet property="nextButton" destination="fFu-L2-Vju" id="34S-En-NgY"/>
+                        <outlet property="previousButton" destination="dA8-Ld-KAy" id="x6U-x7-dJv"/>
+                        <outlet property="progressBar" destination="F7f-JK-tek" id="KKL-l5-inq"/>
                         <outlet property="totalTimeField" destination="2Z0-c4-y2E" id="cRg-FG-am6"/>
                     </connections>
                 </viewController>
@@ -241,7 +269,9 @@
     <resources>
         <image name="LoginBackground" width="640" height="1136"/>
         <image name="LoginIcon" width="488" height="88"/>
+        <image name="NextIcon" width="50" height="50"/>
         <image name="PauseIcon" width="50" height="50"/>
+        <image name="PreviousIcon" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Z8b-cm-wwf"/>
