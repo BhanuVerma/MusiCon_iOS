@@ -117,9 +117,9 @@ float longitude = 0.0f;
         NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
         
         // Generated Request
-        NSString *stringURL = @"http://52.37.58m.111/v1/user/fetch_rec/bverma"; // POST Request
+        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
         NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
-        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString, longString];
+        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString,longString];
         NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
             
         NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
