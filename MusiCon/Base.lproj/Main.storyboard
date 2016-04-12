@@ -268,6 +268,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NGQ-it-A1u" userLabel="Plus Button">
+                                <rect key="frame" x="107" y="90" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="iL3-4l-4PP"/>
+                                    <constraint firstAttribute="width" constant="40" id="q6x-SV-Glz"/>
+                                </constraints>
+                                <state key="normal" image="Plus"/>
+                                <connections>
+                                    <action selector="didTapHeart:" destination="wmL-zY-TNq" eventType="touchUpInside" id="0RE-8p-8eq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -281,6 +292,7 @@
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="centerY" secondItem="dA8-Ld-KAy" secondAttribute="centerY" id="D2V-N7-EBD"/>
                             <constraint firstAttribute="trailing" secondItem="2Z0-c4-y2E" secondAttribute="trailing" constant="6" id="Dmc-j2-3bL"/>
                             <constraint firstItem="BcW-Yl-Tae" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" id="EgQ-rp-kjF"/>
+                            <constraint firstItem="NGQ-it-A1u" firstAttribute="centerX" secondItem="8TU-Nj-d66" secondAttribute="centerX" id="HrV-uQ-G8H"/>
                             <constraint firstItem="brJ-nD-Gqa" firstAttribute="top" secondItem="BcW-Yl-Tae" secondAttribute="bottom" id="JV9-Yu-6mN"/>
                             <constraint firstItem="y74-GZ-His" firstAttribute="centerY" secondItem="8TU-Nj-d66" secondAttribute="centerY" id="Jj8-aX-hRC"/>
                             <constraint firstItem="8TU-Nj-d66" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" constant="-60" id="KQp-G2-Jl3"/>
@@ -296,6 +308,7 @@
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="lr7-s4-aLG"/>
                             <constraint firstItem="0qE-A2-CQe" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" constant="160" id="mTR-YY-b1b"/>
                             <constraint firstItem="BcW-Yl-Tae" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" id="oAH-40-aTE"/>
+                            <constraint firstItem="NGQ-it-A1u" firstAttribute="centerY" secondItem="8TU-Nj-d66" secondAttribute="centerY" id="rzm-dM-rgj"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerY" secondItem="MlE-5H-EPP" secondAttribute="centerY" id="s0Q-vU-OPZ"/>
                             <constraint firstItem="y74-GZ-His" firstAttribute="leading" secondItem="8TU-Nj-d66" secondAttribute="trailing" constant="4.5" id="uRG-QB-NoY"/>
                             <constraint firstItem="fFu-L2-Vju" firstAttribute="centerY" secondItem="PB6-IW-aGJ" secondAttribute="centerY" id="ukV-Fb-Qge"/>
@@ -322,6 +335,7 @@
                         <outlet property="heartRate" destination="Z8n-J9-TCa" id="6ib-T4-Q4r"/>
                         <outlet property="loginButton" destination="VGe-9Z-mf6" id="VeC-Cz-G0t"/>
                         <outlet property="nextButton" destination="fFu-L2-Vju" id="34S-En-NgY"/>
+                        <outlet property="plusButton" destination="NGQ-it-A1u" id="L8z-p5-f1D"/>
                         <outlet property="previousButton" destination="dA8-Ld-KAy" id="x6U-x7-dJv"/>
                         <outlet property="progressBar" destination="F7f-JK-tek" id="KKL-l5-inq"/>
                         <outlet property="statusText" destination="y74-GZ-His" id="UYp-LI-1qB"/>
@@ -340,6 +354,7 @@
         <image name="LoginIcon" width="488" height="88"/>
         <image name="NextIcon" width="50" height="50"/>
         <image name="PauseIcon" width="50" height="50"/>
+        <image name="Plus" width="40" height="40"/>
         <image name="PreviousIcon" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>

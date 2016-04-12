@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIButton *circleButton;
 @property (weak, nonatomic) IBOutlet UIButton *heartButton;
+@property (weak, nonatomic) IBOutlet UIButton *plusButton;
 @property (weak, nonatomic) IBOutlet UITextView *statusText;
 @property (weak, nonatomic) IBOutlet UITextField *heartRate;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
@@ -36,9 +37,11 @@ NSString *callBackURL = @"musicon-login://callback";
 CLLocationManager *locationManager;
 NSTimer *timer;
 NSTimer *songTimer;
+CABasicAnimation *theAnimation;
 NSTimeInterval currentTime;
 NSTimeInterval totalTime;
 NSUInteger lastRate = 0;
+NSUInteger animateLastRate = 0;
 NSUInteger currentRate = 0;
 float latitude = 0.0f;
 float longitude = 0.0f;
@@ -78,6 +81,12 @@ BOOL replaceFlag = YES;
     
     [[MSBClientManager sharedManager] connectClient:self.client];
     [_statusText setText:[NSString stringWithFormat:@"Connecting"]];
+    
+    // check if consent is already given, if yes then hide the button
+    if ([self.client.sensorManager heartRateUserConsent] == MSBUserConsentGranted)
+    {
+        _plusButton.hidden = YES;
+    }
     
     // Spotify session loaded from userdefaults
     
@@ -141,45 +150,97 @@ BOOL replaceFlag = YES;
         }
         
         // Get Lat, Long Info
-//        latitude = locationManager.location.coordinate.latitude;
-//        NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
-//        longitude = locationManager.location.coordinate.longitude;
-//        NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
+        latitude = locationManager.location.coordinate.latitude;
+        NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
+        longitude = locationManager.location.coordinate.longitude;
+        NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
         
         // Generated Request
-//        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
-//        NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
-//        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString,longString];
-//        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
+        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
+        NSArray *features = @[@"lat",@"lon"];
+        NSArray *feature_val = @[latString,longString];
+        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1]];
         
-//        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
-        NSArray *songStringArr = [NSArray arrayWithObjects:@"spotify:track:3RiPr603aXAoi4GHyXx0uy",
-                                  @"spotify:track:0BF6mdNROWgYo3O3mNGrBc",
-                                  @"spotify:track:4O0Yww5OIWyfBvWn6xN3CM",
-                                  @"spotify:track:3LlAyCYU26dvFZBDUIMb7a",
-                                  @"spotify:track:0YuH7QCFXK0elodziM1cOU",
-                                  nil];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [hud.label setText:@"Fetching Songs"];
         
-        // spotify:track:3RiPr603aXAoi4GHyXx0uy - Hymn for the weekend
-        // spotify:track:0BF6mdNROWgYo3O3mNGrBc - LeanOn
-        // spotify:track:4O0Yww5OIWyfBvWn6xN3CM - Divenire
-        // spotify:track:3LlAyCYU26dvFZBDUIMb7a - Demons
-        // spotify:track:0YuH7QCFXK0elodziM1cOU - Saadi Gali
-        
-        NSMutableArray *songURIArr = [[NSMutableArray alloc] initWithCapacity:[songStringArr count]];
-        
-        for (NSString* uriString in songStringArr)
-        {
-            NSURL *songURL = [NSURL URLWithString:uriString];
-            [songURIArr addObject:songURL];
-        }
-        
-        [self.player playURIs:songURIArr fromIndex:0 callback:^(NSError *error) {
-            if (error != nil) {
-                NSLog(@"*** Starting playback got error: %@", error);
-                return;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
+            NSMutableArray *songURIArr = [[NSMutableArray alloc] initWithCapacity:[songStringArr count]];
+            
+            for (NSString* uriString in songStringArr)
+            {
+                NSURL *songURL = [NSURL URLWithString:uriString];
+                [songURIArr addObject:songURL];
             }
-        }];
+            
+            if ([songStringArr count] == 0) {
+                NSArray *songArr = [NSArray arrayWithObjects:@"spotify:track:2iuZJX9X9P0GKaE93xcPjk",
+                                          @"spotify:track:0n4l2ggyid1J2MUaAXzsCS",
+                                          @"spotify:track:32OlwWuMpZ6b0aN2RZOeMS",
+                                          @"spotify:track:78LZUVqzZzsuNfT6G782pP",
+                                          @"spotify:track:32lmL4vQAAotg6MrJnhlQZ",
+                                          nil];
+                
+//                 spotify:track:2iuZJX9X9P0GKaE93xcPjk - Sugar
+//                 spotify:track:0n4l2ggyid1J2MUaAXzsCS - Saadi Gali
+//                 spotify:track:32OlwWuMpZ6b0aN2RZOeMS - Uptown Funk
+//                 spotify:track:78LZUVqzZzsuNfT6G782pP - Banno
+//                 spotify:track:32lmL4vQAAotg6MrJnhlQZ - Work Work
+                
+                NSMutableArray *uriArr = [[NSMutableArray alloc] initWithCapacity:[songArr count]];
+                
+                for (NSString* uriString in songArr)
+                {
+                    NSURL *songURL = [NSURL URLWithString:uriString];
+                    [uriArr addObject:songURL];
+                }
+                
+                [self.player playURIs:uriArr fromIndex:0 callback:^(NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [hud hideAnimated:NO];
+                    });
+                    
+                    if (error != nil) {
+                        NSLog(@"*** Replacing URI got error: %@", error);
+                        return;
+                    }
+                    else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.player setIsPlaying:YES callback:^(NSError *error) {
+                                if (error!=nil) {
+                                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                    return;
+                                }
+                            }];
+                        });
+                    }
+                }];
+            }
+            else {
+                [self.player playURIs:songURIArr fromIndex:0 callback:^(NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [hud hideAnimated:NO];
+                    });
+                    
+                    if (error != nil) {
+                        NSLog(@"*** Starting playback got error: %@", error);
+                        return;
+                    }
+                    else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.player setIsPlaying:YES callback:^(NSError *error) {
+                                if (error!=nil) {
+                                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                    return;
+                                }
+                            }];
+                        });
+                    }
+                }];
+            }
+            
+        });
     }];
     
 }
@@ -285,7 +346,7 @@ BOOL replaceFlag = YES;
         }
         else {
             if (replaceFlag) {
-                songTimer = [NSTimer scheduledTimerWithTimeInterval:45.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
+                songTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
                 if (lastRate < 72 && currentRate >= 72)
                     [self replaceURI:currentRate];
                 else if ((72 < lastRate && lastRate <= 78) && (78 < currentRate || currentRate <= 72))
@@ -371,6 +432,19 @@ BOOL replaceFlag = YES;
     [_heartButton setHidden:NO];
     [_statusText setHidden:NO];
     
+    if (!bandConnected) {
+        if ([self.client.sensorManager heartRateUserConsent] == MSBUserConsentGranted)
+        {
+            _plusButton.hidden = YES;
+        }
+        else {
+            _plusButton.hidden = NO;
+        }
+    }
+    else {
+        [_plusButton setHidden:YES];
+    }
+    
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgressBar) userInfo:nil repeats:YES];
     [self updateProgressBar];
@@ -401,6 +475,7 @@ BOOL replaceFlag = YES;
 {
     [_statusText setText:[NSString stringWithFormat:@"Connected"]];
     [self startHearRateUpdates];
+    [self addBeatAnimation:0.9];
     bandConnected = YES;
 }
 
@@ -425,6 +500,36 @@ BOOL replaceFlag = YES;
 
 #pragma mark Utilities
 
+- (void) addBeatAnimation:(CFTimeInterval)duration {
+    theAnimation=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    if (currentRate < 72) {
+        theAnimation.duration = duration;
+    }
+    else if (currentRate >= 72 && currentRate < 78) {
+        theAnimation.duration = duration;
+    }
+    else if (currentRate >= 72 && currentRate < 78) {
+        theAnimation.duration = duration;
+    }
+    else if (currentRate >= 78 && currentRate < 84) {
+        theAnimation.duration = duration;
+    }
+    else {
+        theAnimation.duration = duration;
+    }
+    theAnimation.repeatCount=HUGE_VALF;
+    theAnimation.autoreverses=YES;
+    theAnimation.fromValue=[NSNumber numberWithFloat:1.5];
+    theAnimation.toValue=[NSNumber numberWithFloat:1.0];
+    theAnimation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [self.heartButton.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+}
+
+- (void) changeBeat:(CFTimeInterval)duration {
+    [self.heartButton.layer removeAnimationForKey:@"animateOpacity"];
+    [self addBeatAnimation:duration];
+}
+
 - (void)startHearRateUpdates
 {
     [_statusText setText:@"Connected"];
@@ -433,8 +538,21 @@ BOOL replaceFlag = YES;
     __weak typeof(self) weakSelf = self;
     void (^handler)(MSBSensorHeartRateData *, NSError *) = ^(MSBSensorHeartRateData *heartRateData, NSError *error) {
         weakSelf.heartRate.hidden = NO;
+        weakSelf.plusButton.hidden = YES;
         weakSelf.heartRate.text = [NSString stringWithFormat:@"%3u", (unsigned int)heartRateData.heartRate];
         currentRate = heartRateData.heartRate;
+        if (currentRate < 72 && animateLastRate >= 72)
+            [weakSelf changeBeat:1.0];
+        else if ((72 < currentRate && currentRate <= 78) && (78 < animateLastRate || animateLastRate <= 72))
+            [weakSelf addBeatAnimation:0.8];
+        else if ((78 < currentRate && currentRate <= 84) && (84 < animateLastRate || animateLastRate <= 78))
+            [weakSelf changeBeat:0.6];
+        else if ((currentRate > 84 && currentRate <= 90) && (90 < animateLastRate || animateLastRate <= 84))
+            [weakSelf changeBeat:0.4];
+        else if (currentRate > 90 && animateLastRate <= 90)
+            [weakSelf changeBeat:0.2];
+        
+        animateLastRate = currentRate;
     };
     
     NSError *stateError;
@@ -588,6 +706,10 @@ BOOL replaceFlag = YES;
     NSError *error;
     NSURLResponse *response;
     NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    if (urlData == nil)
+        return nil;
+    
     NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:urlData options:NSJSONReadingMutableContainers error:nil];
     NSArray *songArr = [dict objectForKey:@"uris"];
     return songArr;
