@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "MBProgressHUD.h"
 
 @interface HomeViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -34,10 +35,15 @@ NSString *clientId = @"ebd981eac8e34799b2dd48e6e20a802c";
 NSString *callBackURL = @"musicon-login://callback";
 CLLocationManager *locationManager;
 NSTimer *timer;
+NSTimer *songTimer;
 NSTimeInterval currentTime;
 NSTimeInterval totalTime;
+NSUInteger lastRate = 0;
+NSUInteger currentRate = 0;
 float latitude = 0.0f;
 float longitude = 0.0f;
+BOOL bandConnected = NO;
+BOOL replaceFlag = YES;
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
@@ -135,15 +141,15 @@ float longitude = 0.0f;
         }
         
         // Get Lat, Long Info
-        latitude = locationManager.location.coordinate.latitude;
-        NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
-        longitude = locationManager.location.coordinate.longitude;
-        NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
+//        latitude = locationManager.location.coordinate.latitude;
+//        NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
+//        longitude = locationManager.location.coordinate.longitude;
+//        NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
         
         // Generated Request
 //        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
-        NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
-        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString,longString];
+//        NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
+//        NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString,longString];
 //        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
         
 //        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
@@ -258,12 +264,58 @@ float longitude = 0.0f;
 }
 
 - (IBAction)nextButtonPressed:(id)sender {
-    [self.player skipNext:^(NSError *error) {
-        if (error!=nil) {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-            return;
+    if (!bandConnected) {
+        [self.player skipNext:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                return;
+            }
+        }];
+    }
+    else {
+        // empty queue, fetch new songs and play those songs
+        if (lastRate == 0) {
+            [self.player skipNext:^(NSError *error) {
+                if (error!=nil) {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    return;
+                }
+                lastRate = currentRate;
+            }];
         }
-    }];
+        else {
+            if (replaceFlag) {
+                replaceFlag = NO;
+                songTimer = [NSTimer scheduledTimerWithTimeInterval:45.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
+                if (lastRate < 72 && currentRate >= 72)
+                    [self replaceURI:currentRate];
+                else if ((72 < lastRate && lastRate <= 77) && (77 < currentRate || currentRate <= 72))
+                    [self replaceURI:currentRate];
+                else if ((77 < lastRate && lastRate <= 90) && (90 < currentRate || currentRate <= 77))
+                    [self replaceURI:currentRate];
+                else if (lastRate > 90 && currentRate <= 90)
+                    [self replaceURI:currentRate];
+                else {
+                    [self.player skipNext:^(NSError *error) {
+                        if (error!=nil) {
+                            NSLog(@"Error: %@ %@", error, [error userInfo]);
+                            return;
+                        }
+                        lastRate = currentRate;
+                    }];
+                }
+            }
+            else {
+                [self.player skipNext:^(NSError *error) {
+                    if (error!=nil) {
+                        NSLog(@"Error: %@ %@", error, [error userInfo]);
+                        return;
+                    }
+                    lastRate = currentRate;
+                }];
+            }
+        }
+    }
 }
 
 - (IBAction)loginWithSpotify:(id)sender {
@@ -349,16 +401,19 @@ float longitude = 0.0f;
 {
     [_statusText setText:[NSString stringWithFormat:@"Connected"]];
     [self startHearRateUpdates];
+    bandConnected = YES;
 }
 
 - (void)clientManager:(MSBClientManager *)clientManager clientDidDisconnect:(MSBClient *)client
 {
     [_statusText setText:[NSString stringWithFormat:@"Disconnected"]];
+    bandConnected = NO;
 }
 
 - (void)clientManager:(MSBClientManager *)clientManager client:(MSBClient *)client didFailToConnectWithError:(NSError *)error
 {
     [_statusText setText:[NSString stringWithFormat:@"Failed to connect"]];
+    bandConnected = NO;
 }
 
 #pragma mark - UITextViewDelegate
@@ -373,12 +428,13 @@ float longitude = 0.0f;
 - (void)startHearRateUpdates
 {
     [_statusText setText:@"Connected"];
+    bandConnected = YES;
     
     __weak typeof(self) weakSelf = self;
     void (^handler)(MSBSensorHeartRateData *, NSError *) = ^(MSBSensorHeartRateData *heartRateData, NSError *error) {
         weakSelf.heartRate.hidden = NO;
         weakSelf.heartRate.text = [NSString stringWithFormat:@"%3u", (unsigned int)heartRateData.heartRate];
-        NSLog(@"%@", heartRateData);
+        currentRate = heartRateData.heartRate;
     };
     
     NSError *stateError;
@@ -386,6 +442,111 @@ float longitude = 0.0f;
     {
         return;
     }
+    
+}
+
+- (void) replaceURI:(NSUInteger)heartRate {
+    
+    NSLog(@"Replacing URIs");
+    
+    // Get Lat, Long Info
+    latitude = locationManager.location.coordinate.latitude;
+    NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
+    longitude = locationManager.location.coordinate.longitude;
+    NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
+    NSString *rateString = [NSString stringWithFormat:@"%zd",heartRate];
+
+    
+    // Generate Request
+    NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
+    NSArray *features = @[@"lat",@"lon",@"bmp"];
+    NSArray *feature_val = @[latString,longString,rateString];
+    NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2]];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud setLabelText:@"Fetching Songs"];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
+        
+        NSMutableArray *songURIArr = [[NSMutableArray alloc] initWithCapacity:[songStringArr count]];
+        
+        for (NSString* uriString in songStringArr)
+        {
+            NSURL *songURL = [NSURL URLWithString:uriString];
+            [songURIArr addObject:songURL];
+        }
+        
+        if ([songStringArr count] == 0) {
+            NSArray *songArr = [NSArray arrayWithObjects:@"spotify:track:3w3y8KPTfNeOKPiqUTakBh",
+                                      @"spotify:track:5A6OHHy73AR5tLxgTc98zz",
+                                      @"spotify:track:5rC5JfViMoaZlDzTXc3tbY",
+                                      @"spotify:track:3GpbwCm3YxiWDvy29Uo3vP",
+                                      @"spotify:track:0O45fw2L5vsWpdsOdXwNAR",
+                                      nil];
+            
+            // spotify:track:3w3y8KPTfNeOKPiqUTakBh - Locked out of heaven
+            // spotify:track:5A6OHHy73AR5tLxgTc98zz - Black and Yellow
+            // spotify:track:5rC5JfViMoaZlDzTXc3tbY - London Thumakda
+            // spotify:track:3GpbwCm3YxiWDvy29Uo3vP - Right Round
+            // spotify:track:0O45fw2L5vsWpdsOdXwNAR - Sexy Back
+            
+            NSMutableArray *uriArr = [[NSMutableArray alloc] initWithCapacity:[songArr count]];
+            
+            for (NSString* uriString in songArr)
+            {
+                NSURL *songURL = [NSURL URLWithString:uriString];
+                [uriArr addObject:songURL];
+            }
+            
+            [self.player replaceURIs:uriArr withCurrentTrack:-1 callback:^(NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [hud hideAnimated:NO];
+                });
+                
+                if (error != nil) {
+                    NSLog(@"*** Replacing URI got error: %@", error);
+                    return;
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.player setIsPlaying:YES callback:^(NSError *error) {
+                            if (error!=nil) {
+                                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                return;
+                            }
+                        }];
+                    });
+                }
+            }];
+        }
+        else {
+            int currentIndex = self.player.currentTrackIndex;
+    
+            [self.player replaceURIs:songURIArr withCurrentTrack:currentIndex callback:^(NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [hud hideAnimated:NO];
+                });
+                
+                if (error != nil) {
+                    NSLog(@"*** Replacing URI got error: %@", error);
+                    return;
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.player setIsPlaying:YES callback:^(NSError *error) {
+                            if (error!=nil) {
+                                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                return;
+                            }
+                        }];
+                    });
+                }
+            }];
+        }
+        
+        lastRate = heartRate;
+    });
     
 }
 
@@ -400,6 +561,10 @@ float longitude = 0.0f;
     else
         durationString = [NSString stringWithFormat: @"%@:%@", minString, secString];
     return durationString;
+}
+
+-(void)updateFlag {
+    replaceFlag = YES;
 }
 
 -(void)updateProgressBar {
