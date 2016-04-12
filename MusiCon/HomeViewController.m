@@ -352,13 +352,15 @@ BOOL replaceFlag = YES;
         else {
             if (replaceFlag) {
                 songTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
-                if (lastRate < 72 && currentRate >= 72)
+                if (currentRate < 72 && lastRate >= 72)
                     [self replaceURI:currentRate];
-                else if ((72 < lastRate && lastRate <= 78) && (78 < currentRate || currentRate <= 72))
+                else if ((72 < currentRate && currentRate <= 78) && (78 < lastRate || lastRate <= 72))
                     [self replaceURI:currentRate];
-                else if ((78 < lastRate && lastRate <= 84) && (84 < currentRate || currentRate <= 78))
+                else if ((78 < currentRate && currentRate <= 84) && (84 < lastRate || lastRate <= 78))
                     [self replaceURI:currentRate];
-                else if (lastRate > 84 && currentRate <= 84)
+                else if ((84 < currentRate && currentRate <= 90) && (90 < lastRate || lastRate <= 84))
+                    [self replaceURI:currentRate];
+                else if(currentRate > 90 && lastRate <= 90)
                     [self replaceURI:currentRate];
                 else {
                     [self.player skipNext:^(NSError *error) {
@@ -448,6 +450,7 @@ BOOL replaceFlag = YES;
     }
     else {
         [_plusButton setHidden:YES];
+        lastRate = currentRate;
     }
     
     
@@ -482,6 +485,7 @@ BOOL replaceFlag = YES;
     [self startHearRateUpdates];
     [self addBeatAnimation:0.9];
     bandConnected = YES;
+    lastRate = currentRate;
 }
 
 - (void)clientManager:(MSBClientManager *)clientManager clientDidDisconnect:(MSBClient *)client
@@ -578,7 +582,8 @@ BOOL replaceFlag = YES;
     NSString *latString = [[NSNumber numberWithFloat:latitude] stringValue];
     longitude = locationManager.location.coordinate.longitude;
     NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
-    NSString *rateString = [NSString stringWithFormat:@"%zd",heartRate];
+    int rate = (int)roundf(heartRate);
+    NSString *rateString = [NSString stringWithFormat:@"%d",rate];
 
     
     // Generate Request
