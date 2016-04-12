@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *artworkImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
+@property (weak, nonatomic) IBOutlet UIButton *circleButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UITextField *currentTimeField;
 @property (weak, nonatomic) IBOutlet UITextField *totalTimeField;
@@ -48,6 +49,7 @@ float longitude = 0.0f;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [locationManager startUpdatingLocation];
     [locationManager requestWhenInUseAuthorization];
+    _progressBar.transform =CGAffineTransformScale(CGAffineTransformIdentity, 1, 3);
     
     _loginButton.hidden = true;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAfterFirstLogin) name:@"loginSuccessfull" object:nil];
@@ -124,11 +126,11 @@ float longitude = 0.0f;
 //        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
         
 //        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
-        NSArray *songStringArr = [NSArray arrayWithObjects:@"3RiPr603aXAoi4GHyXx0uy",
-                                  @"0BF6mdNROWgYo3O3mNGrBc",
-                                  @"4O0Yww5OIWyfBvWn6xN3CM",
-                                  @"3LlAyCYU26dvFZBDUIMb7a",
-                                  @"0YuH7QCFXK0elodziM1cOU",
+        NSArray *songStringArr = [NSArray arrayWithObjects:@"spotify:track:3RiPr603aXAoi4GHyXx0uy",
+                                  @"spotify:track:0BF6mdNROWgYo3O3mNGrBc",
+                                  @"spotify:track:4O0Yww5OIWyfBvWn6xN3CM",
+                                  @"spotify:track:3LlAyCYU26dvFZBDUIMb7a",
+                                  @"spotify:track:0YuH7QCFXK0elodziM1cOU",
                                   nil];
         
         // spotify:track:3RiPr603aXAoi4GHyXx0uy - Hymn for the weekend
@@ -266,6 +268,7 @@ float longitude = 0.0f;
     [_currentTimeField setHidden:NO];
     [_totalTimeField setHidden:NO];
     [_actionButton setHidden:NO];
+    [_circleButton setHidden:NO];
     [_nextButton setHidden:NO];
     [_previousButton setHidden:NO];
     
