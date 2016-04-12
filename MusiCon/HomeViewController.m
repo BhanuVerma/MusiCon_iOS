@@ -12,6 +12,7 @@
 @interface HomeViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIImageView *artworkImage;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UITextField *currentTimeField;
@@ -117,13 +118,19 @@ float longitude = 0.0f;
         NSString *longString = [[NSNumber numberWithFloat:longitude] stringValue];
         
         // Generated Request
-        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
+//        NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
         NSArray *features = @[@"mood", @"location", @"weather", @"event",@"lat",@"lon"];
         NSArray *feature_val = @[@"sad",@"gym",@"sunny", @"driving",latString,longString];
-        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
-            
-        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
-            
+//        NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2],features[3],feature_val[3],features[4],feature_val[4],features[5],feature_val[5]];
+        
+//        NSArray *songStringArr = [self sendNSURLRequest:stringURL withType:@"POST" andFeatureString:featureString];
+        NSArray *songStringArr = [NSArray arrayWithObjects:@"3RiPr603aXAoi4GHyXx0uy",
+                                  @"0BF6mdNROWgYo3O3mNGrBc",
+                                  @"4O0Yww5OIWyfBvWn6xN3CM",
+                                  @"3LlAyCYU26dvFZBDUIMb7a",
+                                  @"0YuH7QCFXK0elodziM1cOU",
+                                  nil];
+        
         // spotify:track:3RiPr603aXAoi4GHyXx0uy - Hymn for the weekend
         // spotify:track:0BF6mdNROWgYo3O3mNGrBc - LeanOn
         // spotify:track:4O0Yww5OIWyfBvWn6xN3CM - Divenire
@@ -171,6 +178,8 @@ float longitude = 0.0f;
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    self.backgroundImage.hidden = true;
+                    self.artworkImage.hidden = false;
                     self.artworkImage.image = coverImage;
                 });
             });

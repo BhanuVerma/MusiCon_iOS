@@ -145,8 +145,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="0qE-A2-CQe">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="BcW-Yl-Tae" userLabel="Background Image">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBackground" translatesAutoresizingMaskIntoConstraints="NO" id="0qE-A2-CQe">
+                                <rect key="frame" x="30" y="160" width="315" height="347"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VGe-9Z-mf6">
@@ -175,6 +178,7 @@
                             </textField>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="F7f-JK-tek">
                                 <rect key="frame" x="47" y="555" width="280" height="2"/>
+                                <color key="tintColor" red="0.38039215686274508" green="0.83921568627450982" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="w0t-pN-m0R"/>
                                 </constraints>
@@ -227,21 +231,25 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="brJ-nD-Gqa" firstAttribute="top" secondItem="0qE-A2-CQe" secondAttribute="bottom" id="1Xb-tJ-ouk"/>
+                            <constraint firstItem="brJ-nD-Gqa" firstAttribute="top" secondItem="0qE-A2-CQe" secondAttribute="bottom" constant="160" id="1Xb-tJ-ouk"/>
                             <constraint firstItem="2Z0-c4-y2E" firstAttribute="baseline" secondItem="F7f-JK-tek" secondAttribute="baseline" id="2gt-3a-2pj"/>
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="top" secondItem="F7f-JK-tek" secondAttribute="bottom" constant="24" id="3GT-Es-bDt"/>
-                            <constraint firstAttribute="trailing" secondItem="0qE-A2-CQe" secondAttribute="trailing" id="4qr-78-DY9"/>
+                            <constraint firstAttribute="trailing" secondItem="0qE-A2-CQe" secondAttribute="trailing" constant="30" id="4qr-78-DY9"/>
                             <constraint firstItem="F7f-JK-tek" firstAttribute="top" secondItem="VGe-9Z-mf6" secondAttribute="bottom" constant="200" id="4yh-a1-JPv"/>
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="centerY" secondItem="dA8-Ld-KAy" secondAttribute="centerY" id="D2V-N7-EBD"/>
                             <constraint firstAttribute="trailing" secondItem="2Z0-c4-y2E" secondAttribute="trailing" constant="6" id="Dmc-j2-3bL"/>
-                            <constraint firstItem="0qE-A2-CQe" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" id="Wy1-jJ-c9d"/>
+                            <constraint firstItem="BcW-Yl-Tae" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" id="EgQ-rp-kjF"/>
+                            <constraint firstItem="brJ-nD-Gqa" firstAttribute="top" secondItem="BcW-Yl-Tae" secondAttribute="bottom" id="JV9-Yu-6mN"/>
+                            <constraint firstItem="0qE-A2-CQe" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" constant="30" id="Wy1-jJ-c9d"/>
                             <constraint firstItem="fFu-L2-Vju" firstAttribute="leading" secondItem="PB6-IW-aGJ" secondAttribute="trailing" constant="18" id="YAG-5E-XGC"/>
+                            <constraint firstAttribute="trailing" secondItem="BcW-Yl-Tae" secondAttribute="trailing" id="cdj-xN-ZXX"/>
                             <constraint firstItem="3AI-la-c3E" firstAttribute="leading" secondItem="MlE-5H-EPP" secondAttribute="leading" constant="6" id="djw-gx-fGX"/>
                             <constraint firstItem="F7f-JK-tek" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="eMg-6V-ZAH"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="lr7-s4-aLG"/>
-                            <constraint firstItem="0qE-A2-CQe" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" id="mTR-YY-b1b"/>
+                            <constraint firstItem="0qE-A2-CQe" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" constant="160" id="mTR-YY-b1b"/>
+                            <constraint firstItem="BcW-Yl-Tae" firstAttribute="top" secondItem="MlE-5H-EPP" secondAttribute="top" id="oAH-40-aTE"/>
                             <constraint firstItem="VGe-9Z-mf6" firstAttribute="centerY" secondItem="MlE-5H-EPP" secondAttribute="centerY" id="s0Q-vU-OPZ"/>
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="centerX" secondItem="MlE-5H-EPP" secondAttribute="centerX" id="vSB-Ac-6xE"/>
                             <constraint firstItem="PB6-IW-aGJ" firstAttribute="leading" secondItem="dA8-Ld-KAy" secondAttribute="trailing" constant="22" id="xrn-hJ-wcs"/>
@@ -253,6 +261,7 @@
                     <connections>
                         <outlet property="actionButton" destination="PB6-IW-aGJ" id="6dN-2f-kaO"/>
                         <outlet property="artworkImage" destination="0qE-A2-CQe" id="fhE-jN-d8L"/>
+                        <outlet property="backgroundImage" destination="BcW-Yl-Tae" id="6yY-F3-Xhf"/>
                         <outlet property="currentTimeField" destination="3AI-la-c3E" id="8sO-Z5-cGh"/>
                         <outlet property="loginButton" destination="VGe-9Z-mf6" id="VeC-Cz-G0t"/>
                         <outlet property="nextButton" destination="fFu-L2-Vju" id="34S-En-NgY"/>
@@ -274,6 +283,6 @@
         <image name="PreviousIcon" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Z8b-cm-wwf"/>
+        <segue reference="8cV-3H-N48"/>
     </inferredMetricsTieBreakers>
 </document>
