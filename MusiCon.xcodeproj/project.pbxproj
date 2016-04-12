@@ -15,10 +15,12 @@
 		36C75B101C8CC942005E154C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36C75B0F1C8CC942005E154C /* Assets.xcassets */; };
 		36C75B1E1C8CC942005E154C /* MusiConTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C75B1D1C8CC942005E154C /* MusiConTests.m */; };
 		36C75B291C8CC942005E154C /* MusiConUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C75B281C8CC942005E154C /* MusiConUITests.m */; };
-		36C75B381C8CD3BB005E154C /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C75B371C8CD3BB005E154C /* Spotify.framework */; };
 		36C75B3A1C8CDC9C005E154C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C75B391C8CDC9C005E154C /* AVFoundation.framework */; };
 		36C75B3C1C8CDCBB005E154C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C75B3B1C8CDCBB005E154C /* SystemConfiguration.framework */; };
 		36E3708C1CACD8A1007C126A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E3708B1CACD8A1007C126A /* MBProgressHUD.m */; };
+		36EC86A21CBC7ED6007D1FDD /* MicrosoftBandKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EC86A01CBC7ED6007D1FDD /* MicrosoftBandKit_iOS.framework */; };
+		36EC86A31CBC7ED6007D1FDD /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EC86A11CBC7ED6007D1FDD /* Spotify.framework */; };
+		36EC86A51CBC7EF8007D1FDD /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EC86A41CBC7EF8007D1FDD /* CoreBluetooth.framework */; };
 		36F1DBCC1CA87DCB000D0441 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F1DBCB1CA87DCB000D0441 /* HomeViewController.m */; };
 		36F1DBCF1CA88A7F000D0441 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F1DBCE1CA88A7F000D0441 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
@@ -57,11 +59,14 @@
 		36C75B241C8CC942005E154C /* MusiConUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusiConUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C75B281C8CC942005E154C /* MusiConUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusiConUITests.m; sourceTree = "<group>"; };
 		36C75B2A1C8CC942005E154C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		36C75B371C8CD3BB005E154C /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
 		36C75B391C8CDC9C005E154C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		36C75B3B1C8CDCBB005E154C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		36E3708A1CACD8A1007C126A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		36E3708B1CACD8A1007C126A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		36EC869E1CBC7E57007D1FDD /* MicrosoftBandKit_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MicrosoftBandKit_iOS.framework; path = ../../../../Downloads/MicrosoftBandKit_iOS_SAMPLES_1.3.20307.2/MicrosoftBandKit_iOS.framework; sourceTree = "<group>"; };
+		36EC86A01CBC7ED6007D1FDD /* MicrosoftBandKit_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MicrosoftBandKit_iOS.framework; path = Frameworks/MicrosoftBandKit_iOS.framework; sourceTree = "<group>"; };
+		36EC86A11CBC7ED6007D1FDD /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = Frameworks/Spotify.framework; sourceTree = "<group>"; };
+		36EC86A41CBC7EF8007D1FDD /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		36F1DBCA1CA87DCB000D0441 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		36F1DBCB1CA87DCB000D0441 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		36F1DBCD1CA88A7F000D0441 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -73,9 +78,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36EC86A51CBC7EF8007D1FDD /* CoreBluetooth.framework in Frameworks */,
+				36EC86A21CBC7ED6007D1FDD /* MicrosoftBandKit_iOS.framework in Frameworks */,
+				36EC86A31CBC7ED6007D1FDD /* Spotify.framework in Frameworks */,
 				36C75B3C1C8CDCBB005E154C /* SystemConfiguration.framework in Frameworks */,
 				36C75B3A1C8CDC9C005E154C /* AVFoundation.framework in Frameworks */,
-				36C75B381C8CD3BB005E154C /* Spotify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,9 +175,12 @@
 		36C75B361C8CCE70005E154C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				36EC86A41CBC7EF8007D1FDD /* CoreBluetooth.framework */,
+				36EC86A01CBC7ED6007D1FDD /* MicrosoftBandKit_iOS.framework */,
+				36EC86A11CBC7ED6007D1FDD /* Spotify.framework */,
+				36EC869E1CBC7E57007D1FDD /* MicrosoftBandKit_iOS.framework */,
 				36C75B3B1C8CDCBB005E154C /* SystemConfiguration.framework */,
 				36C75B391C8CDC9C005E154C /* AVFoundation.framework */,
-				36C75B371C8CD3BB005E154C /* Spotify.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -446,6 +456,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = MusiCon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -464,6 +475,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = MusiCon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
