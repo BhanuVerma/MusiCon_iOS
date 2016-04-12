@@ -76,7 +76,6 @@ BOOL replaceFlag = YES;
     if (self.client == nil)
     {
         [_statusText setText:@"Connection Failed"];
-        return;
     }
     
     [[MSBClientManager sharedManager] connectClient:self.client];
@@ -326,12 +325,18 @@ BOOL replaceFlag = YES;
 
 - (IBAction)nextButtonPressed:(id)sender {
     if (!bandConnected) {
-        [self.player skipNext:^(NSError *error) {
-            if (error!=nil) {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-                return;
-            }
-        }];
+        if (replaceFlag) {
+            songTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
+            [self replaceURI:-1.0];
+        }
+        else {
+            [self.player skipNext:^(NSError *error) {
+                if (error!=nil) {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    return;
+                }
+            }];
+        }
     }
     else {
         // empty queue, fetch new songs and play those songs
@@ -563,7 +568,7 @@ BOOL replaceFlag = YES;
     
 }
 
-- (void) replaceURI:(NSUInteger)heartRate {
+- (void) replaceURI:(float)heartRate {
     NSLog(@"Replacing URIs");
     
     replaceFlag = NO;
@@ -580,7 +585,14 @@ BOOL replaceFlag = YES;
     NSString *stringURL = @"http://52.37.58.111/v1/user/fetch_rec/bverma"; // POST Request
     NSArray *features = @[@"lat",@"lon",@"bmp"];
     NSArray *feature_val = @[latString,longString,rateString];
-    NSString *featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2]];
+    NSString *featureString;
+    
+    if (heartRate < 0) {
+        featureString = [NSString stringWithFormat: @"%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1]];
+    }
+    else {
+        featureString = [NSString stringWithFormat: @"%@=%@&%@=%@&%@=%@",features[0],feature_val[0],features[1],feature_val[1],features[2],feature_val[2]];
+    }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [hud setLabelText:@"Fetching Songs"];
