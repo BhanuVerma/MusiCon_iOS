@@ -15,6 +15,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
 @property (weak, nonatomic) IBOutlet UIButton *circleButton;
+@property (weak, nonatomic) IBOutlet UIButton *heartButton;
+@property (weak, nonatomic) IBOutlet UITextView *statusText;
+@property (weak, nonatomic) IBOutlet UITextField *heartRate;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UITextField *currentTimeField;
 @property (weak, nonatomic) IBOutlet UITextField *totalTimeField;
@@ -22,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *previousButton;
 @property (nonatomic, strong) SPTSession *session;
 @property (nonatomic, strong) SPTAudioStreamingController *player;
+@property (nonatomic, weak) MSBClient *client;
 @end
 
 @implementation HomeViewController
@@ -43,6 +47,8 @@ float longitude = 0.0f;
     
     // Do any additional setup after loading the view, typically from a nib.
     
+    // Location Manager Set Up
+    
     locationManager = [CLLocationManager new];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
@@ -52,7 +58,22 @@ float longitude = 0.0f;
     _progressBar.transform =CGAffineTransformScale(CGAffineTransformIdentity, 1, 3);
     
     _loginButton.hidden = true;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAfterFirstLogin) name:@"loginSuccessfull" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAfterFirstLogin) name:@"loginSuccessful" object:nil];
+    
+    // SetUp Microsoft Band
+    [MSBClientManager sharedManager].delegate = self;
+    NSArray	*clients = [[MSBClientManager sharedManager] attachedClients];
+    self.client = [clients firstObject];
+    if (self.client == nil)
+    {
+        [_statusText setText:@"Connection Failed"];
+        return;
+    }
+    
+    [[MSBClientManager sharedManager] connectClient:self.client];
+    [_statusText setText:[NSString stringWithFormat:@"Connecting"]];
+    
+    // Spotify session loaded from userdefaults
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData* sessionData = (NSData *)[userDefaults objectForKey:@"SpotifySession"];
@@ -260,7 +281,31 @@ float longitude = 0.0f;
     
 }
 
-#pragma mark Delegate Implementations
+- (IBAction)didTapHeart:(id)sender {
+    if ([self.client.sensorManager heartRateUserConsent] == MSBUserConsentGranted)
+    {
+        [self startHearRateUpdates];
+    }
+    else
+    {
+        [_statusText setText:@"Requesting consent"];
+        __weak typeof(self) weakSelf = self;
+        [self.client.sensorManager requestHRUserConsentWithCompletion:^(BOOL userConsent, NSError *error) {
+            if (userConsent)
+            {
+                [weakSelf startHearRateUpdates];
+            }
+            else
+            {
+                weakSelf.statusText.text = @"Consent declined";
+            }
+        }];
+    }
+}
+
+
+
+#pragma mark Audio Delegate Implementations
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didStartPlayingTrack:(NSURL *)trackUri {
     
@@ -271,6 +316,9 @@ float longitude = 0.0f;
     [_circleButton setHidden:NO];
     [_nextButton setHidden:NO];
     [_previousButton setHidden:NO];
+    [_heartButton setHidden:NO];
+    [_statusText setHidden:NO];
+    
     
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgressBar) userInfo:nil repeats:YES];
     [self updateProgressBar];
@@ -287,14 +335,59 @@ float longitude = 0.0f;
     [_actionButton setBackgroundImage:playIcon forState:UIControlStateNormal];
 }
 
-// Delegate method
+#pragma mark Location Delegate Implementations
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation* loc = [locations lastObject]; // locations is guaranteed to have at least one object
     latitude = loc.coordinate.latitude;
     longitude = loc.coordinate.longitude;
 }
 
+#pragma mark - MSBClientManagerDelegate
+
+- (void)clientManager:(MSBClientManager *)clientManager clientDidConnect:(MSBClient *)client
+{
+    [_statusText setText:[NSString stringWithFormat:@"Connected"]];
+    [self startHearRateUpdates];
+}
+
+- (void)clientManager:(MSBClientManager *)clientManager clientDidDisconnect:(MSBClient *)client
+{
+    [_statusText setText:[NSString stringWithFormat:@"Disconnected"]];
+}
+
+- (void)clientManager:(MSBClientManager *)clientManager client:(MSBClient *)client didFailToConnectWithError:(NSError *)error
+{
+    [_statusText setText:[NSString stringWithFormat:@"Failed to connect"]];
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    return NO;
+}
+
 #pragma mark Utilities
+
+- (void)startHearRateUpdates
+{
+    [_statusText setText:@"Connected"];
+    
+    __weak typeof(self) weakSelf = self;
+    void (^handler)(MSBSensorHeartRateData *, NSError *) = ^(MSBSensorHeartRateData *heartRateData, NSError *error) {
+        weakSelf.heartRate.hidden = NO;
+        weakSelf.heartRate.text = [NSString stringWithFormat:@"%3u", (unsigned int)heartRateData.heartRate];
+        NSLog(@"%@", heartRateData);
+    };
+    
+    NSError *stateError;
+    if (![self.client.sensorManager startHeartRateUpdatesToQueue:nil errorRef:&stateError withHandler:handler])
+    {
+        return;
+    }
+    
+}
 
 -(NSString *)getTime:(NSTimeInterval)time {
     int minutes = time/60;

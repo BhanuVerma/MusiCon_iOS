@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Spotify/Spotify.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MicrosoftBandKit_iOS/MicrosoftBandKit_iOS.h>
 
-@interface HomeViewController : UIViewController <SPTAudioStreamingPlaybackDelegate,CLLocationManagerDelegate>
+@interface HomeViewController : UIViewController <SPTAudioStreamingPlaybackDelegate,MSBClientManagerDelegate,CLLocationManagerDelegate,UITextViewDelegate>
 
 @end

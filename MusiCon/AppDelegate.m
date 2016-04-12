@@ -37,7 +37,7 @@
             [userDefaults synchronize];
             
             // post notification that session has been synchronized
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccessfull" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccessful" object:nil];
         }];
         return YES;
     }
