@@ -285,18 +285,18 @@ BOOL replaceFlag = YES;
         }
         else {
             if (replaceFlag) {
-                replaceFlag = NO;
                 songTimer = [NSTimer scheduledTimerWithTimeInterval:45.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
                 if (lastRate < 72 && currentRate >= 72)
                     [self replaceURI:currentRate];
-                else if ((72 < lastRate && lastRate <= 77) && (77 < currentRate || currentRate <= 72))
+                else if ((72 < lastRate && lastRate <= 78) && (78 < currentRate || currentRate <= 72))
                     [self replaceURI:currentRate];
-                else if ((77 < lastRate && lastRate <= 90) && (90 < currentRate || currentRate <= 77))
+                else if ((78 < lastRate && lastRate <= 84) && (84 < currentRate || currentRate <= 78))
                     [self replaceURI:currentRate];
-                else if (lastRate > 90 && currentRate <= 90)
+                else if (lastRate > 84 && currentRate <= 84)
                     [self replaceURI:currentRate];
                 else {
                     [self.player skipNext:^(NSError *error) {
+                        replaceFlag = YES;
                         if (error!=nil) {
                             NSLog(@"Error: %@ %@", error, [error userInfo]);
                             return;
@@ -446,8 +446,9 @@ BOOL replaceFlag = YES;
 }
 
 - (void) replaceURI:(NSUInteger)heartRate {
-    
     NSLog(@"Replacing URIs");
+    
+    replaceFlag = NO;
     
     // Get Lat, Long Info
     latitude = locationManager.location.coordinate.latitude;
@@ -499,7 +500,7 @@ BOOL replaceFlag = YES;
                 [uriArr addObject:songURL];
             }
             
-            [self.player replaceURIs:uriArr withCurrentTrack:-1 callback:^(NSError *error) {
+            [self.player playURIs:uriArr fromIndex:0 callback:^(NSError *error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideAnimated:NO];
                 });
@@ -521,9 +522,8 @@ BOOL replaceFlag = YES;
             }];
         }
         else {
-            int currentIndex = self.player.currentTrackIndex;
     
-            [self.player replaceURIs:songURIArr withCurrentTrack:currentIndex callback:^(NSError *error) {
+            [self.player playURIs:songURIArr fromIndex:0 callback:^(NSError *error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [hud hideAnimated:NO];
                 });
