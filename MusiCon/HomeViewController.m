@@ -326,7 +326,7 @@ BOOL replaceFlag = YES;
 - (IBAction)nextButtonPressed:(id)sender {
     if (!bandConnected) {
         if (replaceFlag) {
-            songTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
+            songTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
             [self replaceURI:-1.0];
         }
         else {
@@ -351,7 +351,7 @@ BOOL replaceFlag = YES;
         }
         else {
             if (replaceFlag) {
-                songTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
+                songTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(updateFlag) userInfo:nil repeats:NO];
                 if (currentRate < 72 && lastRate >= 72)
                     [self replaceURI:currentRate];
                 else if ((72 < currentRate && currentRate <= 78) && (78 < lastRate || lastRate <= 72))
